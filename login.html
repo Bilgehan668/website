@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>LeadorosCraft - Giriş / Kayıt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://wallpapercave.com/wp/wp2757874.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background-color: rgba(0,0,0,0.8);
+      padding: 40px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #00ffcc;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00ffcc;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .toggle {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .toggle a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container" id="loginForm">
+    <h2>Giriş Yap</h2>
+    <input type="email" id="loginEmail" placeholder="E-posta">
+    <input type="password" id="loginPassword" placeholder="Şifre">
+    <button onclick="loginUser()">Giriş Yap</button>
+    <div class="toggle">
+      Hesabın yok mu? <a href="#" onclick="showRegister()">Kayıt Ol</a>
+    </div>
+  </div>
+
+  <div class="form-container" id="registerForm" style="display:none;">
+    <h2>Kayıt Ol</h2>
+    <input type="email" id="registerEmail" placeholder="E-posta">
+    <input type="password" id="registerPassword" placeholder="Şifre">
+    <button onclick="registerUser()">Kayıt Ol</button>
+    <div class="toggle">
+      Zaten hesabın var mı? <a href="#" onclick="showLogin()">Giriş Yap</a>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"></script>
+  <script>
+    // 🔧 BURAYI KENDİ PROJENE GÖRE DOLDUR
+    const firebaseConfig = {
+      apiKey: "BURAYA_API_KEY",
+      authDomain: "proje-adi.firebaseapp.com",
+      projectId: "proje-adi",
+      appId: "BURAYA_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function registerUser() {
+      const email = document.getElementById("registerEmail").value;
+      const password = document.getElementById("registerPassword").value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(user => alert("Kayıt başarılı!"))
+        .catch(error => alert(error.message));
+    }
+
+    function loginUser() {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(user => alert("Giriş başarılı!"))
+        .catch(error => alert("Hata: " + error.message));
+    }
+
+    function showRegister() {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("registerForm").style.display = "block";
+    }
+
+    function showLogin() {
+      document.getElementById("registerForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
